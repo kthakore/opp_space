@@ -44,13 +44,32 @@ sub _init
 
 	$self->{display} = $a;
 
+	$self->{controller} = SDLx::Widget::Controller->new();
+	$self->controller->add_event_handler( \&on_event );
+
+
+}
+
+sub on_event
+{
+	my ($event) = @_;
+	if ( $event->type == SDL_QUIT ) {
+        	return 0;
+	    }
+
+	return 1;
+}
+
+sub controller :lvalue
+{
+	return $_[0]->{controller};
 }
 
 
 sub start
 {
-    sleep(1);
-
+	my $self = shift;
+	$self->controller->run();
 }
 
 
